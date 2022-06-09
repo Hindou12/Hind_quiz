@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "718269960605",
+    "project_id": "haidarahindquiz",
+    "storage_bucket": "haidarahindquiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718269960605:android:641fa43b60b4c99ee5df74",
+        "android_client_info": {
+          "package_name": "com.example.my_quiz_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718269960605-82jqroq8nmpcmirnjpo5jr2qpqtbl0jj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAacV8r006zwZNJSArjyyNd65XjXuhwK00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "718269960605-82jqroq8nmpcmirnjpo5jr2qpqtbl0jj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

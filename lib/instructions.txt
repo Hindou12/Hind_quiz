@@ -1,0 +1,11 @@
+now before going to UI design , first let's make some constant variables.
+-Create a separate file.
+
+let's creat home page 
+let's delete all the default code and start from de scratch 
+
+-let's start work on UI-change the background color and the appbar first
+-import the constants.dart in our homepage it because has our color
+-let's add some demo questions.
+- now let's create our question widget.
+-let's add it to our home page 
