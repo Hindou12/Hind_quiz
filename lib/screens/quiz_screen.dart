@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:my_quiz_app/models/questions.dart';
 import 'package:my_quiz_app/screens/result_screen.dart';
@@ -7,9 +8,12 @@ import 'package:my_quiz_app/screens/result_screen.dart';
 import '../components/grad.dart';
 
 class Quiz extends StatefulWidget {
-  const Quiz({Key? key, required this.tempsfinal, required this.questions})
-      : super(key: key);
-  final int tempsfinal;
+  const Quiz({
+    Key? key,
+    required this.totalTime,
+    required this.questions,
+  }) : super(key: key);
+  final int totalTime;
   final List<Questions> questions;
   @override
   State<Quiz> createState() => _QuizState();
@@ -24,8 +28,10 @@ class _QuizState extends State<Quiz> {
   @override
   void initState() {
     super.initState();
-    tempscourant = widget.tempsfinal;
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    tempscourant = widget.totalTime;
+    timer = Timer.periodic(Duration(seconds: 2),
+        (timer) //2secondes pour chaque 1 sec
+        {
       setState(() {
         tempscourant = tempscourant - 1;
       });
@@ -44,30 +50,43 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    final Curquestion = widget.questions[indice];
+    final Curquestion = widget.questions[indice]; //on récupère la question
+    print(Curquestion.imageUrl); //on affiche l'image
     return Scaffold(
+      //on crée le scaffold
       body: Grad(
+        //on crée le gradient
         child: Padding(
+          //on crée le padding
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            //on crée la colonne
+            crossAxisAlignment: CrossAxisAlignment.start, //on aligne la colonne
             children: [
+              //on crée les enfants
               SizedBox(
-                height: 40,
+                //on crée un sizedbox
+                height: 40, //on définit la hauteur
               ),
               SizedBox(
                 height: 30,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  //on crée un cliprect
+                  borderRadius:
+                      BorderRadius.circular(20), //on définit le radius
                   child: Stack(
-                    fit: StackFit.expand,
+                    //on crée un stack
+                    fit: StackFit.expand, //on définit la taille
                     children: [
                       LinearProgressIndicator(
-                        value: tempscourant / widget.tempsfinal,
+                        //on crée un linearprogressindicator
+                        value: tempscourant /
+                            widget.totalTime, //on définit la valeur du temps
                       ),
                       Center(
+                          //on crée un center
                           child: Text(
-                        tempscourant.toString(),
+                        tempscourant.toString(), //on affiche le temps
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -81,43 +100,56 @@ class _QuizState extends State<Quiz> {
                 height: 40,
               ),
               Text(
-                'Question',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-              Text(
                 Curquestion.question,
                 style: TextStyle(color: Colors.white, fontSize: 24),
               ),
+              //Spacer(),
+              // Image.network(Curquestion.imageUrl),
+              CachedNetworkImage(
+                imageUrl: Curquestion.imageUrl,
+                height: 200,
+                width: 500,
+              ), //ajouter la photo
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    final answer = Curquestion.answers[indice];
+                    final answer =
+                        Curquestion.answers[index]; //on récupère la réponse
                     return AnswerTile(
-                      isSelected: answer == selectAnswer,
-                      answer: answer,
-                      correctAnswer: Curquestion.correctAnswer,
+                      isSelected: answer ==
+                          selectAnswer, //on définit si la réponse est sélectionnée
+                      answer: answer, //on définit la réponse
+                      correctAnswer: Curquestion
+                          .correctAnswer, //on définit la réponse correcte
                       onTap: () {
+                        //on définit l'action lorsque l'on clique
                         setState(() {
-                          selectAnswer = answer;
+                          selectAnswer =
+                              answer; //on définit la réponse sélectionnée
                         });
 
                         if (answer == Curquestion.correctAnswer) {
-                          _score++;
+                          //on définit si la réponse est correcte
+                          _score++; // on incrémente le score quand c correct
                         }
-                        Future.delayed(Duration(milliseconds: 200), () {
-                          if (tempscourant == widget.questions.length - 1) {
-                            pushResultScreen(context);
+                        Future.delayed(Duration(milliseconds: 500), () {
+                          if (indice == widget.questions.length - 1) {
+                            //on définit si on est à la dernière question
+                            pushResultScreen(
+                                context); //on pousse la page de résultat
                             return;
                           }
                           setState(() {
-                            tempscourant++;
-                            selectAnswer = '';
+                            indice++; //on incrémente l'indice
+                            selectAnswer =
+                                ''; //on définit la réponse sélectionnée à vide
                           });
                         });
                       },
                     );
                   },
-                  itemCount: Curquestion.answers.length,
+                  itemCount: Curquestion
+                      .answers.length, //on définit le nombre de réponses
                 ),
               )
             ],
@@ -129,10 +161,13 @@ class _QuizState extends State<Quiz> {
 
   void pushResultScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(
+      //on pousse la page de résultat
       MaterialPageRoute(
         builder: (context) => ResultScreen(
-          questions: widget.questions,
-          score: _score,
+          //on crée la page de résultat
+          questions: widget.questions, //on définit les questions
+          totalTime: widget.totalTime, //on définit le temps total
+          score: _score, //on définit le score
         ),
       ),
     );
@@ -171,11 +206,13 @@ class AnswerTile extends StatelessWidget {
   }
 
   Color get cardColor {
-    if (!isSelected) return Colors.white;
+    //on définit la couleur de la carte
+    if (!isSelected) return Colors.white; //si la réponse n'est pas sélectionnée
 
     if (answer == correctAnswer) {
-      return Colors.teal;
+      //si la réponse est correcte
+      return Colors.teal; //vert
     }
-    return Colors.redAccent;
+    return Colors.redAccent; //sinon c pas correct c le rouge
   }
 }

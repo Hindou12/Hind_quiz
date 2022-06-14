@@ -9,24 +9,27 @@ class Questions {
   final String question;
   final List<String> answers;
   final String correctAnswer;
-  Questions({
-    required this.id,
-    required this.question,
-    required this.answers,
-    required this.correctAnswer,
-  });
+  final String imageUrl;
+  Questions(
+      {required this.id,
+      required this.question,
+      required this.answers,
+      required this.correctAnswer,
+      required this.imageUrl});
 
   Questions copyWith({
     String? id,
     String? question,
     List<String>? answers,
     String? correctAnswer,
+    String? imageUrl,
   }) {
     return Questions(
       id: id ?? this.id,
       question: question ?? this.question,
       answers: answers ?? this.answers,
       correctAnswer: correctAnswer ?? this.correctAnswer,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -36,15 +39,18 @@ class Questions {
       'question': question,
       'answers': answers,
       'correctAnswer': correctAnswer,
+      'imageUrl': imageUrl,
     };
   }
 
   factory Questions.fromMap(Map<String, dynamic> map) {
+    print(map);
     return Questions(
       id: map['id'] as String,
       question: map['question'] as String,
-      answers: List<String>.from((map['answers'] as List<String>)),
+      answers: List<String>.from((map['answers'])),
       correctAnswer: map['correctAnswer'] as String,
+      imageUrl: map['imageUrl'] as String,
     );
   }
   factory Questions.fromQueryDocumentSnapshot(QueryDocumentSnapshot snapshot) {

@@ -1,6 +1,7 @@
 // import the material app package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_quiz_app/components/rank.dart';
 import 'package:my_quiz_app/models/questions.dart';
 import 'package:my_quiz_app/screens/quiz_screen.dart';
 import 'package:my_quiz_app/components/grad.dart';
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 200,
               ),
               StreamBuilder<QuerySnapshot>(
+                //on crée un stream builder pour récupérer les données de la base de données
                 stream: FirebaseFirestore.instance
                     .collection('questions')
                     .snapshots(),
@@ -43,22 +45,53 @@ class _HomeScreenState extends State<HomeScreen> {
                   final questions = questionDocs
                       .map((e) => Questions.fromQueryDocumentSnapshot(e))
                       .toList();
+                  print('got questions');
+                  // ignore: dead_code
+                  return StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('config')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      //print(!snapshot.error);
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final configDoc = snapshot.data!.docs.first.data()
+                          as Map<String, dynamic>;
+                      final totalTime = configDoc['key'];
 
-                  return ActionButton(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Quiz(
-                            tempsfinal: 10,
-                            questions: questions,
+                      return Column(
+                        children: [
+                          ActionButton(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Quiz(
+                                    totalTime: totalTime,
+                                    questions: questions,
+                                  ),
+                                ),
+                              );
+                            },
+                            title: 'Start',
                           ),
-                        ),
+                          SizedBox(height: 20),
+                          Text(
+                            'Total Questions : ${questions.length}',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       );
                     },
-                    title: 'Start',
                   );
                 },
               ),
+              SizedBox(height: 70),
+              RankAuth()
             ],
           ),
         ),
