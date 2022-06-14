@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_quiz_app/components/action_box.dart';
-import 'package:my_quiz_app/services/auth_service.dart';
+import 'package:myquizapp/components/action_box.dart';
+import 'package:myquizapp/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class RankAuth extends StatefulWidget {

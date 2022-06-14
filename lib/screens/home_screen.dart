@@ -1,11 +1,11 @@
 // import the material app package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_quiz_app/components/rank.dart';
-import 'package:my_quiz_app/models/questions.dart';
-import 'package:my_quiz_app/screens/quiz_screen.dart';
-import 'package:my_quiz_app/components/grad.dart';
-import 'package:my_quiz_app/components/action_box.dart';
+import 'package:myquizapp/components/rank.dart';
+import 'package:myquizapp/models/questions.dart';
+import 'package:myquizapp/screens/quiz_screen.dart';
+import 'package:myquizapp/components/grad.dart';
+import 'package:myquizapp/components/action_box.dart';
 
 // create the HomeScreen widget
 // parent widget and all the functions and variables will be in this widget so we will need to change state of our widget.

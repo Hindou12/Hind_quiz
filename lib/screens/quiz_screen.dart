@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:my_quiz_app/models/questions.dart';
-import 'package:my_quiz_app/screens/result_screen.dart';
+import 'package:myquizapp/models/questions.dart';
+import 'package:myquizapp/screens/result_screen.dart';
 
 import '../components/grad.dart';
 
