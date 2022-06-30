@@ -10,12 +10,15 @@ class Questions {
   final List<String> answers;
   final String correctAnswer;
   final String imageUrl;
-  Questions(
-      {required this.id,
-      required this.question,
-      required this.answers,
-      required this.correctAnswer,
-      required this.imageUrl});
+  final String category;
+  Questions({
+    required this.id,
+    required this.question,
+    required this.answers,
+    required this.correctAnswer,
+    required this.imageUrl,
+    required this.category,
+  });
 
   Questions copyWith({
     String? id,
@@ -23,6 +26,7 @@ class Questions {
     List<String>? answers,
     String? correctAnswer,
     String? imageUrl,
+    String? category,
   }) {
     return Questions(
       id: id ?? this.id,
@@ -30,6 +34,7 @@ class Questions {
       answers: answers ?? this.answers,
       correctAnswer: correctAnswer ?? this.correctAnswer,
       imageUrl: imageUrl ?? this.imageUrl,
+      category: category ?? this.category,
     );
   }
 
@@ -40,6 +45,7 @@ class Questions {
       'answers': answers,
       'correctAnswer': correctAnswer,
       'imageUrl': imageUrl,
+      'category': category,
     };
   }
 
@@ -51,6 +57,7 @@ class Questions {
       answers: List<String>.from((map['answers'])),
       correctAnswer: map['correctAnswer'] as String,
       imageUrl: map['imageUrl'] as String,
+      category: map['category'] as String,
     );
   }
   factory Questions.fromQueryDocumentSnapshot(QueryDocumentSnapshot snapshot) {
@@ -79,7 +86,9 @@ class Questions {
         other.id == id &&
         other.question == question &&
         listEquals(other.answers, answers) &&
-        other.correctAnswer == correctAnswer;
+        other.correctAnswer == correctAnswer &&
+        other.imageUrl == imageUrl &&
+        other.category == category;
   }
 
   @override
@@ -87,7 +96,9 @@ class Questions {
     return id.hashCode ^
         question.hashCode ^
         answers.hashCode ^
-        correctAnswer.hashCode;
+        correctAnswer.hashCode ^
+        imageUrl.hashCode ^
+        category.hashCode;
   }
 }
 

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myquizapp/components/rank.dart';
 import 'package:myquizapp/models/questions.dart';
+import 'package:myquizapp/screens/category_screen.dart';
 import 'package:myquizapp/screens/quiz_screen.dart';
 import 'package:myquizapp/components/grad.dart';
 import 'package:myquizapp/components/action_box.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, snapshot) {
                       //print(!snapshot.error);
                       if (!snapshot.hasData) {
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -68,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => Quiz(
+                                  builder: (context) => CategoryScreen(
                                     totalTime: totalTime,
                                     questions: questions,
                                   ),
@@ -77,10 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             title: 'Start',
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Text(
                             'Total Questions : ${questions.length}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
@@ -90,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-              SizedBox(height: 70),
-              RankAuth()
+              const SizedBox(height: 70),
+              const RankAuth()
             ],
           ),
         ),
